@@ -4,7 +4,7 @@ from django.db import models
 
 class Bus_list(models.Model):
     name = models.CharField(max_length=100)
-    form = models.CharField(max_length=100)
+    from_location = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     
