@@ -23,6 +23,9 @@ class Shedule(models.Model):
     pm = models.BooleanField()
     status = models.CharField(max_length=10, choices=Status_type.choices)
     
+    def __str__(self):
+        return f"{self.bus.name}"
+    
 class Bus_seates(models.Model):
     bus = models.ForeignKey(Bus_list, on_delete=models.CASCADE)
     A1 = models.BooleanField()
