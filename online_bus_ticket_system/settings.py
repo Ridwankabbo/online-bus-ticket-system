@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bus_apis', 
+    'buses',
+    'Users',
     'rest_framework'
 ]
 
@@ -67,6 +68,10 @@ TEMPLATES = [
         },
     },
 ]
+
+
+AUTH_USER_MODEL = 'Users.Users'
+
 
 WSGI_APPLICATION = 'online_bus_ticket_system.wsgi.application'
 
