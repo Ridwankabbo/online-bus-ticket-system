@@ -17,7 +17,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         
     
     def create(self, validated_data):
-        user = Users.objects.create(
+        user = Users.objects.create_user(
             username=validated_data.get('username'),
             email = validated_data.get('email'),
             password = validated_data.get('password')
@@ -34,4 +34,25 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         print(f"Email:{user.email} send OTP :{user.otp}")
         return user
     
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+    
+    
+class VerifyUserOtpSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField()
+    
+class ResendOtpSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField()
+    password = serializers.CharField()
+    
+
     
