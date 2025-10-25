@@ -138,31 +138,23 @@ class ForgotPasswordView(APIView):
         return Response(serializer.errors)
     
 class ResetPasswordView(APIView):
-    def post(self, requst):
-        serializer = ResetPasswordSerializer(data = requst.data)
-        
+
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data.get('email')
             otp = serializer.validated_data.get('otp')
             password = serializer.validated_data.get('password')
             
-            print(email, otp, password)
-            
             try:
-                
-                user = User.objects.get(email = email)
-                print(user)
+                user = User.objects.get(email=email)
                 if user.otp == otp:
-                    user.set_password = password
-                    user.opt = None
+                    user.set_password(password)
+                    user.otp = None
                     user.save()
-                    
-                    return Response({"message":"Password changed successfully"})
-                return Response({"message":"Wrong otp"})
+                    print(f"email:{user.email} and otp:{user.otp}")
+                    return Response({"message":"Password successfully changed"})
             except User.DoesNotExist:
-                return Response({"message":"User doesn't exist"})
+                return Response({"message":"User doesn't found"})
         return Response(serializer.errors)
-            
-             
-
-    
+                
