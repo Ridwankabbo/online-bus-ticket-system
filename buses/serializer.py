@@ -3,7 +3,8 @@ from .models import (
     Bus,
     Shidule,
     Routes,
-    Locations
+    Locations,
+    Seats
 )
 
 class LocationsSerializer(serializers.ModelSerializer):
@@ -18,16 +19,29 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class ShiduleSerializer(serializers.ModelSerializer):
-    route = RouteSerializer()
+    route = serializers.PrimaryKeyRelatedField(
+        queryset = Routes.objects.all()
+    )
     class Meta:
         model = Shidule
         fields = "__all__"
+        depth=1
+        
+class SectsSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = Seats
+        fields = '__all__'
 
 class BusSerializer(serializers.ModelSerializer):
-    # route = RouteSerializer()
-    shidule = ShiduleSerializer()
+    route=serializers.PrimaryKeyRelatedField(
+        queryset = Routes.objects.all()
+    )
+    shidule = serializers.PrimaryKeyRelatedField(
+        queryset = Shidule.objects.all()
+    )
+    seats = SectsSerializer()
     class Meta:
         model = Bus
-        fields = "__all__"
-        depth=2
+        fields = ["id","name", "route", "shidule", "seats"]
+        depth=3
 

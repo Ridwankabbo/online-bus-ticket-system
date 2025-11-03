@@ -19,9 +19,10 @@ class CustomUserManager(BaseUserManager):
         
     # For creating a custom Super user
     
-    def create_superuser(self, email, username, passwrod=None, **extra_fields):
+    def create_superuser(self, email, username, password=None, **extra_fields):
         
-        user  = self.create_user(email, username, passwrod)
+        # 🔑 The call to create_user must include the correct password argument
+        user  = self.create_user(email, username, password)
         user.is_active = True
         user.is_superuser = True
         user.is_admin = True
