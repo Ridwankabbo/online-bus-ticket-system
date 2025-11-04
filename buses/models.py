@@ -19,15 +19,28 @@ class Routes(models.Model):
 
 class Shidule(models.Model):
     route = models.ForeignKey(Routes, models.CASCADE, related_name="route")
-    time = models.DateTimeField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
     
     def __str__(self):
         return f"{self.route.destination_from} - {self.route.destination_to} at {self.time}"
     
 
+    
+class Bus(models.Model):
+    name = models.CharField(max_length=100)
+    route = models.ForeignKey(Routes, models.CASCADE)
+    shidule = models.ForeignKey(Shidule, models.CASCADE, related_name="shidule")
+    # seats = models.ForeignKey(Seats, models.CASCADE, related_name="seats", null=True, blank=True)
+    
+    def __str__(self):
+        return self.name
+    
+    
 class Seats(models.Model):
     
-    # toal_seats = models.PositiveIntegerField()
+    bus = models.ForeignKey(Bus, models.CASCADE, related_name="bus", null=True, blank=True)
+    total_seats = models.PositiveIntegerField(default=10)
+    
     A1 = models.BooleanField(default=False)
     A2 = models.BooleanField(default=False)
     B1 = models.BooleanField(default=False)
@@ -39,15 +52,5 @@ class Seats(models.Model):
     E1 = models.BooleanField(default=False)
     E2 = models.BooleanField(default=False)
     
-    
-    
-class Bus(models.Model):
-    name = models.CharField(max_length=100)
-    route = models.ForeignKey(Routes, models.CASCADE)
-    shidule = models.ForeignKey(Shidule, models.CASCADE, related_name="shidule")
-    seats = models.ForeignKey(Seats, models.CASCADE, related_name="seats", null=True, blank=True)
-    
     def __str__(self):
-        return self.name
-    
-    
+        return f"{self.bus} total seats: {self.total_seats}"

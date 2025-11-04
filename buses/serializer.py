@@ -29,8 +29,8 @@ class ShiduleSerializer(serializers.ModelSerializer):
         
 class SectsSerializer(serializers.ModelSerializer):
     class Meta:
-        models = Seats
-        fields = '__all__'
+        model = Seats
+        fields = ['id','bus','total_seats', "A1",'A2',"B1",'B2',"C1",'C2',"D1",'D2',"E1",'E2']
 
 class BusSerializer(serializers.ModelSerializer):
     route=serializers.PrimaryKeyRelatedField(
@@ -39,9 +39,9 @@ class BusSerializer(serializers.ModelSerializer):
     shidule = serializers.PrimaryKeyRelatedField(
         queryset = Shidule.objects.all()
     )
-    seats = SectsSerializer()
+    # seats = SectsSerializer()
     class Meta:
         model = Bus
-        fields = ["id","name", "route", "shidule", "seats"]
+        fields = ["id","name", "route", "shidule"]
         depth=3
 
