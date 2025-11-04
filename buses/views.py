@@ -140,10 +140,23 @@ def SearchBusView(request):
             # If the error is still a 500, it's occurring inside the filter().
             return Response({"message":f"Error occured {e}"})
         
-@api_view(['GET'])
+""" 
+    =========================
+        Seats View
+    =========================
+"""        
+@api_view(['GET', 'POST'])
 def SeatsView(request):
     if request.method == "GET":
-        seats = Seats.objects.all()
-        serializer = SectsSerializer(seats, many=True)
+        bus_id = request.GET.get('bus_id')
+        # print(bus_id)
+        try:
+            seats = Seats.objects.get(bus=bus_id)
+            serializer = SectsSerializer(seats)
+            
+            return Response(serializer.data)
+        except Seats.DoesNotExist:
+            return Response({"message":"Doesn't exist"})
         
-        return Response(serializer.data)
+   
+        

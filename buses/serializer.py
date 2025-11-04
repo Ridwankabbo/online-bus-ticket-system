@@ -39,7 +39,6 @@ class BusSerializer(serializers.ModelSerializer):
     shidule = serializers.PrimaryKeyRelatedField(
         queryset = Shidule.objects.all()
     )
-    # seats = SectsSerializer()
     class Meta:
         model = Bus
         fields = ["id","name", "route", "shidule"]
