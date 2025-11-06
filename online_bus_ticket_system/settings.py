@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'buses',
     'Users',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'bookings'
 ]
 
 MIDDLEWARE = [

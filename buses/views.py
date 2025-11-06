@@ -111,9 +111,9 @@ def BusView(request):
 """
 @api_view(["GET", "POST"])
 def SearchBusView(request):
-    if request.method == "GET":
-        from_place_name = request.GET.get('fromplace')
-        dest_place_name = request.GET.get('destplace')
+    if request.method == "POST":
+        from_place_name = request.POST.get('fromplace')
+        dest_place_name = request.POST.get('destplace')
         # print(from_place_name, dest_place_name)
 
         try:
@@ -147,9 +147,11 @@ def SearchBusView(request):
 """        
 @api_view(['GET', 'POST'])
 def SeatsView(request):
-    if request.method == "GET":
-        bus_id = request.GET.get('bus_id')
-        # print(bus_id)
+    if request.method == "POST":
+        # data = request.body
+        bus_id = request.data.get('bus_id')
+        print(bus_id)
+        
         try:
             seats = Seats.objects.get(bus=bus_id)
             serializer = SectsSerializer(seats)
