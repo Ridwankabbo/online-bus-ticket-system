@@ -17,4 +17,4 @@ class Bookings(models.Model):
     status = models.CharField(max_length=10, choices=booking_status_choices, default='PENDING')
     
     def __str__(self):
-        return f"Booking {self.id} by {self.user.username} for{self.bus} from {self.booking_date}" 
+        return f"Bookied by {self.user.username} for {self.bus} at {self.booking_date}" 
