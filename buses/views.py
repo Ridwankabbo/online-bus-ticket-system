@@ -148,9 +148,7 @@ def SearchBusView(request):
 @api_view(['GET', 'POST'])
 def SeatsView(request):
     if request.method == "POST":
-        # data = request.body
-        bus_id = request.data.get('bus_id')
-        print(bus_id)
+        bus_id = request.POST.get('bus_id')
         
         try:
             seats = Seats.objects.get(bus=bus_id)
@@ -159,6 +157,10 @@ def SeatsView(request):
             return Response(serializer.data)
         except Seats.DoesNotExist:
             return Response({"message":"Doesn't exist"})
+        except Exception as e:
+            
+            print(f"Error in SeatsView: {e}") 
+            return Response({"error": str(e)}, status=500)
         
    
         
