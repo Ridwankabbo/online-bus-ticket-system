@@ -32,6 +32,9 @@ class Seats(models.Model):
     seat_name = models.CharField(max_length=2)
     seat_status=models.BooleanField(default=False)
     
+    def __str__(self):
+        return f"{self.bus}   {self.seat_name}"
+    
 class Shidule(models.Model):
     route = models.ForeignKey(Route, models.CASCADE, related_name='bus_route')
     bus = models.ForeignKey(Bus, models.CASCADE, related_name='bus_shidule')
