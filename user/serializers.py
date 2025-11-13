@@ -39,3 +39,20 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         print(f"OTP for {user.email}: {user.otp}")
 
         return user
+
+class VerifyOptSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField();
+    
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+    
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    
+    
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField()
+    password = serializers.CharField()
