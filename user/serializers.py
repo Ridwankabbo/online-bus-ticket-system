@@ -8,7 +8,7 @@ from .utils import generate_otp , send_verification_mail
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fileds = "__all__"
+        fields = "__all__"
 
 
 
@@ -19,20 +19,23 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields =['email','username', 'password']
         
-        def create(self, validate_data):
-            user = User.objects.create_user(
-                email = validate_data.get('email'),
-                username = validate_data.get('username'),
-                password = validate_data.get('password')
+    def create(self, validate_data):
+        user = User.objects.create_user(
+            email = validate_data.get('email'),
+            username = validate_data.get('username'),
+            password = validate_data.get('password')
+        )
+            
+        try:
+            verification_otp = generate_otp()
+            print("OTP:", verification_otp)
+            user.otp = verification_otp
+            user.save()
+        except AttributeError:
+            raise ValueError(
+                {"detail":"otp not found"}
             )
             
-            try:
-                verification_otp =generate_otp()
-                user.otp = verification_otp
-                user.save()
-            except AttributeError:
-                raise ValueError(
-                    {"detail":"otp not found"}
-                )
-            
-            print(f"OTP for {user.email}: {user.opt}")
+        print(f"OTP for {user.email}: {user.otp}")
+
+        return user
