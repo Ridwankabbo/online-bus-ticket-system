@@ -55,9 +55,13 @@ def BusSeatsView(request):
         Shidule View
     =======================
 """
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def BusShiduleView(request):
-    data = Shidule.objects.all()
+    source = request.GET.get('source')
+    destination = request.GET.get('destination')
+    print(source, destination)
+    data = Shidule.objects.filter(route__source__name=source, route__destination__name=destination)
+    print(data)
     serializer = BusShiduleSerializer(data, many=True)
     return Response(serializer.data)
 
