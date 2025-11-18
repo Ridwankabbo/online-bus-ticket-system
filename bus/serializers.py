@@ -36,4 +36,4 @@ class BusShiduleSerializer(serializers.ModelSerializer):
     route = RouteSerializer()
     class Meta:
         model = Shidule
-        fields = ["id", "bus", "route", "bus_time"]
+        fields = ["id", "bus", "route", "price", "bus_time"]

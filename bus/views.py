@@ -36,7 +36,10 @@ def LocationView(request):
 @api_view(['GET', "PATCH"])
 def BusSeatsView(request):
     if request.method == "GET":
-        data = Seats.objects.all()
+        id = request.GET.get('id')
+        print("bus id:",id)
+        data = Seats.objects.filter(bus__id= id)
+        print(data)
         serializer = SeatsSerializer(data, many=True)
     
         return Response(serializer.data)
