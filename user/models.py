@@ -44,6 +44,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def __str__(self):
         return f"name: {self.username} email : {self.email}"
+    
+    
+    
+from booking.models import Booking
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, models.CASCADE, related_name='userprofile')
+    bookings = models.ForeignKey(Booking, models.CASCADE, related_name='bookings')
+    
+    def __str__(self):
+        return f"{self.user} bookings: {self.bookings}"
         
 
 

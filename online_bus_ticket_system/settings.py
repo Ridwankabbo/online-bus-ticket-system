@@ -147,27 +147,30 @@ CORS_ALLOWED_ORIGINS=[
 ]
 
 
-REST_FRAMEWORK = {
-    
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':{
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSER':(
+    },
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     )
-    
 }
 
+
 SIMPLE_JWT = {
-    'AUTHENTICATION_METHOD':'email',
+    'AUTHENTICATION_METHOD': 'email',
     
-    'USER_ID_FILED':'id',
-    'USER_ID_CLAIM':'user_id',
+    # 💡 FIX 1: Corrected typo from FILED to FIELD
+    'USER_ID_FIELD': 'id', 
+    'USER_ID_CLAIM': 'user_id',
     
-    'ACCESS_TOKEN_LIFETIME':timedelta(hours=5),
-    'REFRESH_TOKEN_LIFETIME':timedelta(days=7),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     
-    'AUTH_HEADERS_TYPE':('Bearer',),
-    'TOKEN_USER_CLASS':'user.User',
-}
+    # 💡 FIX 2: Corrected typo from HEADERS_TYPE to HEADER_TYPES
+    'AUTH_HEADER_TYPES': ('Bearer',), 
+    
+    # 💡 Ensure this path is 100% correct: AppName.ModelName
+    'TOKEN_USER_CLASS': 'user.User',
+    }

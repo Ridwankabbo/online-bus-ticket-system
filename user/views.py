@@ -135,4 +135,26 @@ def ResetPasswordView(request):
         except User.DoesNotExist:
             return Response({"message":"User doesnot exist"})
     return Response(serializer.errors)
+
+
+""" 
+    =========================
+        User profile view
+    =========================
+"""
+
+from .serializers import UserProfileSerializer
+from booking.serializers import BookingSerializer
+from booking.models import Booking
+from .models import UserProfile
+from rest_framework.permissions import IsAuthenticated
+class UserProfileView(APIView):
+    
+    parser_classes=[IsAuthenticated]
+    
+    def get(self, request):
+        user = request.user
+        serializer = UserProfileSerializer(user, many=True)
+        
+        return Response(serializer.data)
                 
