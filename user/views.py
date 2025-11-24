@@ -153,10 +153,10 @@ class UserProfileView(APIView):
     
     def get(self, request):
         user_profile = request.user
-        serializer = UserProfileSerializer(user_profile)
+        user_bookings = Booking.objects.get(user=user_profile)
+        print(user_bookings)
+        serializer = BookingSerializer(user_bookings)
         
         return Response(serializer.data)
     
-    def post(self, request):
-        user_profile = request.POST.get('')
                 
