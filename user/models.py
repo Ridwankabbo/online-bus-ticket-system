@@ -53,7 +53,7 @@ class UserProfile(models.Model):
     bookings = models.ForeignKey(Booking, models.CASCADE, related_name='bookings')
     
     def __str__(self):
-        return f"{self.user} bookings: {self.bookings}"
+        return f"{self.user}"
         
 
 

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import (
     User,
-    UserProfile
 )
 from .utils import generate_otp , send_verification_mail
 
@@ -62,5 +61,5 @@ class ResetPasswordSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = UserProfile
+        model = User
         fields ="__all__"

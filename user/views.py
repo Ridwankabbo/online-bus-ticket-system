@@ -146,15 +146,17 @@ def ResetPasswordView(request):
 from .serializers import UserProfileSerializer
 from booking.serializers import BookingSerializer
 from booking.models import Booking
-from .models import UserProfile
 from rest_framework.permissions import IsAuthenticated
 class UserProfileView(APIView):
     
-    parser_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated]
     
     def get(self, request):
-        user = request.user
-        serializer = UserProfileSerializer(user, many=True)
+        user_profile = request.user
+        serializer = UserProfileSerializer(user_profile)
         
         return Response(serializer.data)
+    
+    def post(self, request):
+        user_profile = request.POST.get('')
                 
