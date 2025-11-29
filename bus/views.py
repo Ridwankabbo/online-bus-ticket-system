@@ -51,6 +51,19 @@ def BusSeatsView(request):
             
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+""" 
+    ==========================
+        Shidule list view 
+    ==========================
+"""
+    
+@api_view(["GET"])
+def BusShiduleList(request):
+    shidule_list = Shidule.objects.all()
+    
+    serializer = BusShiduleSerializer(shidule_list, many=True)
+    return Response(serializer.data)
 
 
 """
