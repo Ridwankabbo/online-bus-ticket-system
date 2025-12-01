@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import (
     Locations,
     Route,
@@ -22,6 +24,7 @@ from .serializers import (
     ===========================
 """
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def LocationView(request):
     data = Locations.objects.all()
     serialize = LocationsSerializer(data, many=True)
@@ -59,6 +62,7 @@ def BusSeatsView(request):
 """
     
 @api_view(["GET"])
+@permission_classes([AllowAny])
 def BusShiduleList(request):
     shidule_list = Shidule.objects.all()
     
@@ -72,6 +76,7 @@ def BusShiduleList(request):
     =======================
 """
 @api_view(['GET','POST'])
+
 def BusShiduleView(request):
     source = request.GET.get('source')
     destination = request.GET.get('destination')
