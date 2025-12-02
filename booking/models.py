@@ -6,7 +6,8 @@ from bus.models import Shidule, Bus, Seats
 class Booking(models.Model):
     user = models.ForeignKey(User, models.CASCADE, related_name='user')
     shidule = models.ForeignKey(Shidule, models.CASCADE, related_name='shidule')
-    seats = models.ForeignKey(Seats, models.CASCADE, related_name='seats')
+    seats = models.JSONField(default=list)
+    total_amount = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

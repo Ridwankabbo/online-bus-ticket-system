@@ -37,6 +37,7 @@ def LocationView(request):
     =============================
 """
 @api_view(['GET', "PATCH"])
+@permission_classes([AllowAny])
 def BusSeatsView(request):
     if request.method == "GET":
         id = request.GET.get('id')
@@ -76,7 +77,7 @@ def BusShiduleList(request):
     =======================
 """
 @api_view(['GET','POST'])
-
+@permission_classes([AllowAny])
 def BusShiduleView(request):
     source = request.GET.get('source')
     destination = request.GET.get('destination')

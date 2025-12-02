@@ -5,12 +5,17 @@ from .models import Booking
 from .serializers import BookingSerializer
 # Create your views here.
 
-@api_view(['GET', 'POST'])
-def BookingView(request):
-    booking = Booking.objects.all()
-    serializer = BookingSerializer(booking, many=True)
-    
-    return Response(serializer.data)
 
+''' ************************ Create Bookings view *********************** '''
+@api_view(['POST'])
+def BookingView(request):
+
+    if request.method == 'POST':
+        serializer = BookingSerializer(data=request.data, context={'request':request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
     
 
