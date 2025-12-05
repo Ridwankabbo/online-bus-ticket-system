@@ -21,10 +21,10 @@ class BookingSerializer(serializers.ModelSerializer):
         seat_numbers = validated_data.pop('seats')
         shidule = validated_data.pop('shidule')
         
-        print(seat_numbers, shidule)
+        # print(seat_numbers, shidule)
         
         # seleced_bus = Shidule.objects.get(id=shidule)
-        print("selected bus ",shidule.bus.id)
+        # print("selected bus ",shidule.bus.id)
         selectd_bus = shidule.bus.id
         already_booked = Seats.objects.filter(
             bus=selectd_bus,
@@ -32,7 +32,7 @@ class BookingSerializer(serializers.ModelSerializer):
             seat_status=False
         )
         
-        print("Already booked seats", already_booked)
+        # print("Already booked seats", already_booked)
         
         if already_booked.exists():
             booked_nums = [s.seats_number for s in already_booked]
@@ -40,13 +40,13 @@ class BookingSerializer(serializers.ModelSerializer):
                 "seats": f"Seats {', '.join(map(str, booked_nums))} are already exists"
             })
             
-        seats = Seats.objects.filter(
+        Seats.objects.filter(
             bus = selectd_bus,
             pk__in=[i for i in seat_numbers],
             
         ).update(seat_status=True)
         
-        print("Seats:  ", seats)
+        # print("Seats:  ", seats)
         
         booking = Booking.objects.create(
             user = self.context['request'].user,
@@ -54,5 +54,5 @@ class BookingSerializer(serializers.ModelSerializer):
             seats = seat_numbers,
             total_amount= shidule.price * len(seat_numbers)
         )
-        print("Bookings: ", booking)
+        # print("Bookings: ", booking)
         return booking

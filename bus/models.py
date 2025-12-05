@@ -39,7 +39,8 @@ class Shidule(models.Model):
     route = models.ForeignKey(Route, models.CASCADE, related_name='bus_route')
     bus = models.ForeignKey(Bus, models.CASCADE, related_name='bus_shidule')
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    bus_time = models.TimeField()
+    bus_date_time = models.DateTimeField(blank=True, null=True)
+    
     
     def __str__(self):
         return f"{self.bus}  {self.route}  {self.bus_time}"
