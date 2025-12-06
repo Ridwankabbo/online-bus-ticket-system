@@ -56,19 +56,19 @@ def BusSeatsView(request):
             return Response(serializer.data)
         return Response(serializer.errors)
     
-""" 
-    ==========================
-        Shidule list view 
-    ==========================
-"""
+# """ 
+#     ==========================
+#         Shidule list view 
+#     ==========================
+# """
     
-@api_view(["GET"])
-@permission_classes([AllowAny])
-def BusShiduleList(request):
-    shidule_list = Shidule.objects.all()
+# @api_view(["GET"])
+# @permission_classes([AllowAny])
+# def BusShiduleList(request):
+#     shidule_list = Shidule.objects.all()
     
-    serializer = BusShiduleSerializer(shidule_list, many=True)
-    return Response(serializer.data)
+#     serializer = BusShiduleSerializer(shidule_list, many=True)
+#     return Response(serializer.data)
 
 
 """
@@ -79,12 +79,24 @@ def BusShiduleList(request):
 @api_view(['GET','POST'])
 @permission_classes([AllowAny])
 def BusShiduleView(request):
-    source = request.GET.get('source')
-    destination = request.GET.get('destination')
-    print(source, destination)
-    data = Shidule.objects.filter(route__source__name=source, route__destination__name=destination)
-    print(data)
-    serializer = BusShiduleSerializer(data, many=True)
-    return Response(serializer.data)
+    
+    if request.method == 'GET':
+        shidule_list = Shidule.objects.all()
+        
+        serializer = BusShiduleSerializer(shidule_list, many=True)
+        return Response(serializer.data)
+    
+    if request.method == 'POST':
+        source = request.POST.get('source')
+        destination = request.POST.get('destination')
+        date = request.POST.get('date')
+        shidules = Shidule.objects.filter(
+            route__source__name=source,
+            route__destination__name=destination,
+            bus_date_time__date=date)
+        print(shidules)
+        serializer = BusShiduleSerializer(shidules, many=True)
+        print(serializer)
+        return Response(serializer.data)
 
 

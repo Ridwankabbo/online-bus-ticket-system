@@ -41,8 +41,15 @@ class Shidule(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     bus_date_time = models.DateTimeField(blank=True, null=True)
     
-    
     def __str__(self):
-        return f"{self.bus}  {self.route}  {self.bus_time}"
+        return f"{self.bus}  {self.route}  {self.bus_date_time}"
+    
+    @property
+    def shidule_date(self):
+        return self.bus_date_time.date()
+    
+    @property
+    def shidule_time(self):
+        return self.bus_date_time.time()
     
     
