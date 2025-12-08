@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import (
     User,
+    UserProfile
 )
 from .utils import generate_otp , send_verification_mail
 
@@ -36,30 +37,38 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
                 {"detail":"otp not found"}
             )
             
-        print(f"OTP for {user.email}: {user.otp}")
+        # print(f"OTP for {user.email}: {user.otp}")
+        
+        UserProfile.objects.create(
+            user=user
+        )
 
         return user
-
+""" ****************************** Verify otp serializer ******************************** """
 class VerifyOptSerializer(serializers.Serializer):
     email = serializers.EmailField()
     otp = serializers.CharField();
+
+""" ********************************* User login serializer ********************************"""
+# class UserLoginSerializer(serializers.Serializer):
+#     email = serializers.EmailField()
+#     password = serializers.CharField()
     
-class UserLoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField()
-    
+""" ******************************* Forgot password serializer ******************************* """
 class ForgotPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     
-    
+""" ***************************** Reset password serializer ***************************** """
 class ResetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     otp = serializers.CharField()
     password = serializers.CharField()
     
-    
+
+""" ****************************** User profile serialize ************************* """    
 class UserProfileSerializer(serializers.ModelSerializer):
-    
+    user = UserSerializer()
     class Meta:
-        model = User
-        fields ="__all__"
+        model = UserProfile
+        fields ='__all__'
+        depth = 1

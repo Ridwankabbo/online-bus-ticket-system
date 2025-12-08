@@ -13,6 +13,7 @@ class BookingSerializer(serializers.ModelSerializer):
     seats = serializers.ListField(
         child=serializers.IntegerField(min_value=1, max_value=10)
     )
+    # shidule_details = BusShiduleSerializer()
     class Meta:
         model = Booking
         fields = ['id', 'shidule', 'seats', 'total_amount', 'created_at']

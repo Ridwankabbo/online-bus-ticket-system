@@ -4,25 +4,16 @@ from .serializers import (
     UserSerializer,
     UserRegistrationSerializer,
     VerifyOptSerializer,
-    UserLoginSerializer,
     ResetPasswordSerializer,
     ForgotPasswordSerializer
 )
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model, authenticate
 from .utils import generate_otp
-
+from .models import UserProfile
 # Create your views here.
 
 User = get_user_model()
-
-
-class UsersView(APIView):
-    def get(self, request):
-        user = User.objects.all()
-        serializer = UserSerializer(user, many=True)
-        
-        return Response(serializer.data)
 
 
 """ 
@@ -73,21 +64,21 @@ def VerifyOtpView(request):
         Login View
     ===========================
 """
-@api_view(['POST'])
-def LoginView(request):
-    serializer = UserLoginSerializer(data=request.data)
-    if serializer.is_valid():
-        email = serializer.validated_data.get('email')
-        password = serializer.validated_data.get('password')
+# @api_view(['POST'])
+# def LoginView(request):
+#     serializer = UserLoginSerializer(data=request.data)
+#     if serializer.is_valid():
+#         email = serializer.validated_data.get('email')
+#         password = serializer.validated_data.get('password')
         
-        user= authenticate(request, username=email, password=password)
+#         user= authenticate(request, username=email, password=password)
         
-        if user is not None:
-            if user.is_active:
-                print("**************** Login successful ********************")
-                return Response({"message":"Login successfull"})
-            return Response({"messae":"User isn't actice"})
-        return Response({"message":"User isn't registered"})
+#         if user is not None:
+#             if user.is_active:
+#                 print("**************** Login successful ********************")
+#                 return Response({"message":"Login successfull"})
+#             return Response({"messae":"User isn't actice"})
+#         return Response({"message":"User isn't registered"})
 
 """ 
     =============================
@@ -152,11 +143,12 @@ class UserProfileView(APIView):
     permission_classes=[IsAuthenticated]
     
     def get(self, request):
-        user_profile = request.user
-        user_bookings = Booking.objects.get(user=user_profile)
-        print(user_bookings)
-        serializer = BookingSerializer(user_bookings)
+        try:
+            user = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            return Response({"message":"Profile doesn't exist"})
+        
+        serializer = UserProfileSerializer(user)
         
         return Response(serializer.data)
-    
                 

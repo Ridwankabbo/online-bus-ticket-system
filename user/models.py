@@ -50,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 from booking.models import Booking
 class UserProfile(models.Model):
     user = models.ForeignKey(User, models.CASCADE, related_name='userprofile')
-    bookings = models.ForeignKey(Booking, models.CASCADE, related_name='bookings')
+    bookings = models.ForeignKey(Booking, models.CASCADE, related_name='bookings', null=True, blank=True)
     
     def __str__(self):
         return f"{self.user}"
