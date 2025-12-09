@@ -9,7 +9,7 @@ from .utils import generate_otp , send_verification_mail
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ['username', 'email', 'is_active']
 
 
 
@@ -70,5 +70,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = UserProfile
-        fields ='__all__'
+        fields =['user','phone', 'address']
         depth = 1
