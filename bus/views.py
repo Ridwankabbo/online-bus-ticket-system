@@ -5,9 +5,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import (
     Locations,
-    Route,
     Locations,
-    Bus,
     Seats,
     Shidule
 )
@@ -55,21 +53,6 @@ def BusSeatsView(request):
             
             return Response(serializer.data)
         return Response(serializer.errors)
-    
-# """ 
-#     ==========================
-#         Shidule list view 
-#     ==========================
-# """
-    
-# @api_view(["GET"])
-# @permission_classes([AllowAny])
-# def BusShiduleList(request):
-#     shidule_list = Shidule.objects.all()
-    
-#     serializer = BusShiduleSerializer(shidule_list, many=True)
-#     return Response(serializer.data)
-
 
 """
     =======================
@@ -80,23 +63,15 @@ def BusSeatsView(request):
 @permission_classes([AllowAny])
 def BusShiduleView(request):
     
-    if request.method == 'GET':
-        shidule_list = Shidule.objects.all()
-        
-        serializer = BusShiduleSerializer(shidule_list, many=True)
-        return Response(serializer.data)
-    
     if request.method == 'POST':
-        source = request.POST.get('source')
-        destination = request.POST.get('destination')
-        date = request.POST.get('date')
+        source = request.data.get('source')
+        destination = request.data.get('destination')
+        date = request.data.get('date')
         shidules = Shidule.objects.filter(
             route__source__name=source,
             route__destination__name=destination,
             bus_date_time__date=date)
-        print(shidules)
         serializer = BusShiduleSerializer(shidules, many=True)
-        print(serializer)
         return Response(serializer.data)
 
 
