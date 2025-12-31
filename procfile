@@ -1,0 +1,1 @@
+web: gunicorn online_bus_ticket_system.wsgi:application

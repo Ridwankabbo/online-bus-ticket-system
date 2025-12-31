@@ -4,8 +4,8 @@ from bus.models import Shidule, Bus, Seats
 # Create your models here.
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, models.CASCADE, related_name='user')
-    shidule = models.ForeignKey(Shidule, models.CASCADE, related_name='shidule')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    shidule = models.ForeignKey(Shidule, on_delete=models.CASCADE, related_name='shidule')
     seats = models.JSONField(default=list)
     total_amount = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
